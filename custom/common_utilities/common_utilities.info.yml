@@ -1,0 +1,6 @@
+name: Common Utilities 
+type: module
+description: 'Custom Common Utilities for Drupal 8 modules.'
+package: Custom
+version: 8.1
+core: 8.x

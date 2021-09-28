@@ -1,0 +1,10 @@
+sales_lib:
+  version: VERSION
+  css:
+    theme:
+      css/sales.css: {}
+  js:
+    js/sales.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal

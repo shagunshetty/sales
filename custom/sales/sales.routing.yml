@@ -1,0 +1,9 @@
+sales.manage:
+  path: 'sales/manage/{node_id}'
+  defaults:
+    _form:  '\Drupal\sales\Form\SalesForm'
+    _title: 'Sales'
+  requirements:
+    _permission: 'sales user'
+  options:
+    no_cache: 'TRUE'

@@ -1,0 +1,8 @@
+sales user:
+  title: 'Sales User'
+  description: 'Sales creator.'
+  restrict access: true
+sales admin:
+  title: 'Administer Sales Configuration'
+  description: 'Configure Sales module settings.'
+  restrict access: true
