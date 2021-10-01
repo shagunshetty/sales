@@ -2,5 +2,4 @@ name: Sales System
 type: module
 description: 'Sales System for Drupal modules.'
 package: Custom
-version: 8.1
-core: 8.x
+core_version_requirement: ^8.8 || ^9
