@@ -20,18 +20,17 @@ class SalesForm extends FormBase {
     'project_class',
     'project_type',
     'source_of_lead',
-    'client_name',
-    'client_designation',
     'project',
     'sales_person',
     'currency',
     'estimated_value',
+    'inr_usd',
     'key_decision_maker',
     'engineer',
     'boq_person',
     'deal_stage',
     'result_status',
-    'feedback',
+    'deal_status_updates',
     'likely_close_date'
   );
 
@@ -59,17 +58,19 @@ class SalesForm extends FormBase {
           $form_data[$field_name] = $node->get('field_'.$field_name)->getString();
         }
 
+        $arr_client_name = $node->get('field_client_name')->getValue();
+        $arr_client_designation = $node->get('field_client_designation')->getValue();
         $arr_client_phone = $node->get('field_client_phone')->getValue();
-        for($i=0; $i<=3; $i++) {
-          $form_data['client_phone_' . ($i+1)] = $arr_client_phone[$i]['value'];
-        }
-
         $arr_client_email = $node->get('field_client_email')->getValue();
-        for($i=0; $i<=3; $i++) {
-          $form_data['client_email_' . ($i+1)] = $arr_client_email[$i]['value'];
+
+        for($i=1; $i<=4; $i++) {
+          $form_data['client_name_' . $i] = $arr_client_name[($i-1)]['value'];
+          $form_data['client_designation_' . $i] = $arr_client_designation[($i-1)]['value'];
+          $form_data['client_phone_' . $i] = $arr_client_phone[($i-1)]['value'];
+          $form_data['client_email_' . $i] = $arr_client_email[($i-1)]['value'];
         }
 
-//        print_r($form_data);exit;
+        //echo "<pre>";print_r($form_data);exit;
         // get created timestamp
         $created_timestamp = 'Created on ' . date("d F Y H:i", $node->getCreatedTime());
       } else {
@@ -85,12 +86,11 @@ class SalesForm extends FormBase {
         $form_data[$field_name] = '';
       }
 
-      for($i=0; $i<=3; $i++) {
-        $form_data['client_phone_' . ($i+1)] = '';
-      }
-
-      for($i=0; $i<=3; $i++) {
-        $form_data['client_email_' . ($i+1)] = '';
+      for($i=1; $i<=4; $i++) {
+        $form_data['client_name_' . $i] = '';
+        $form_data['client_designation_' . $i] = '';
+        $form_data['client_phone_' . $i] = '';
+        $form_data['client_email_' . $i] = '';
       }
     }
 
@@ -115,16 +115,113 @@ class SalesForm extends FormBase {
 
     $form['sales_info']['date'] = [
       '#type' => 'date',
-      '#title' => $this->t('Date'),
+      '#title' => $this->t('Date of Enquiry'),
       '#date_date_format' => 'd-m-Y',
       '#default_value' => $form_data['date'],
     ];
 
     $arr_location = array(
-    'mumbai' => 'Mumbai',
-    'new_delhi' => 'New Delhi',
-    'bangalore' => 'Bangalore',
-    'hyderabad' => 'Hyderabad');
+      'mumbai' => 'Mumbai',
+      'new_delhi' => 'New Delhi',
+      'bangalore' => 'Bangalore',
+      'hyderabad' => 'Hyderabad',
+      'ahmedabad' => 'Ahmedabad',
+      'chennai' => 'Chennai',
+      'kolkata' => 'Kolkata',
+      'surat' => 'Surat',
+      'pune' => 'Pune',
+      'jaipur' => 'Jaipur',
+      'lucknow' => 'Lucknow',
+      'kanpur' => 'Kanpur',
+      'nagpur' => 'Nagpur',
+      'indore' => 'Indore',
+      'thane' => 'Thane',
+      'bhopal' => 'Bhopal',
+      'visakhapatnam' => 'Visakhapatnam',
+      'pimpri_chinchwad' => 'Pimpri & Chinchwad',
+      'patna' => 'Patna',
+      'vadodara' => 'Vadodara',
+      'ghaziabad' => 'Ghaziabad',
+      'ludhiana' => 'Ludhiana',
+      'agra' => 'Agra',
+      'nashik' => 'Nashik',
+      'faridabad' => 'Faridabad',
+      'meerut' => 'Meerut',
+      'rajkot' => 'Rajkot',
+      'kalyan_dombivali' => 'Kalyan & Dombivali',
+      'vasai_virar' => 'Vasai Virar',
+      'varanasi' => 'Varanasi',
+      'srinagar' => 'Srinagar',
+      'aurangabad' => 'Aurangabad',
+      'dhanbad' => 'Dhanbad',
+      'amritsar' => 'Amritsar',
+      'navi_mumbai' => 'Navi Mumbai',
+      'allahabad' => 'Allahabad',
+      'ranchi' => 'Ranchi',
+      'haora' => 'Haora',
+      'coimbatore' => 'Coimbatore',
+      'jabalpur' => 'Jabalpur',
+      'gwalior' => 'Gwalior',
+      'vijayawada' => 'Vijayawada',
+      'jodhpur' => 'Jodhpur',
+      'madurai' => 'Madurai',
+      'raipur' => 'Raipur',
+      'kota' => 'Kota',
+      'guwahati' => 'Guwahati',
+      'chandigarh' => 'Chandigarh',
+      'solapur' => 'Solapur',
+      'hubli_and_dharwad' => 'Hubli and Dharwad',
+      'bareilly' => 'Bareilly',
+      'moradabad' => 'Moradabad',
+      'gurgaon' => 'Gurgaon',
+      'aligarh' => 'Aligarh',
+      'jalandhar' => 'Jalandhar',
+      'tiruchirappalli' => 'Tiruchirappalli',
+      'bhubaneswar' => 'Bhubaneswar',
+      'salem' => 'Salem',
+      'mira_and_bhayander' => 'Mira and Bhayander',
+      'thiruvananthapuram' => 'Thiruvananthapuram',
+      'bhiwandi' => 'Bhiwandi',
+      'saharanpur' => 'Saharanpur',
+      'gorakhpur' => 'Gorakhpur',
+      'guntur' => 'Guntur',
+      'bikaner' => 'Bikaner',
+      'amravati' => 'Amravati',
+      'noida' => 'Noida',
+      'jamshedpur' => 'Jamshedpur',
+      'bhilai_nagar' => 'Bhilai Nagar',
+      'warangal' => 'Warangal',
+      'cuttack' => 'Cuttack',
+      'firozabad' => 'Firozabad',
+      'kochi' => 'Kochi',
+      'bhavnagar' => 'Bhavnagar',
+      'dehradun' => 'Dehradun',
+      'durgapur' => 'Durgapur',
+      'asansol' => 'Asansol',
+      'nanded_waghala' => 'Nanded Waghala',
+      'kolapur' => 'Kolapur',
+      'ajmer' => 'Ajmer',
+      'gulbarga' => 'Gulbarga',
+      'jamnagar' => 'Jamnagar',
+      'ujjain' => 'Ujjain',
+      'loni' => 'Loni',
+      'siliguri' => 'Siliguri',
+      'jhansi' => 'Jhansi',
+      'ulhasnagar' => 'Ulhasnagar',
+      'nellore' => 'Nellore',
+      'jammu' => 'Jammu',
+      'sangli_miraj_kupwad' => 'Sangli Miraj Kupwad',
+      'belgaum' => 'Belgaum',
+      'mangalore' => 'Mangalore',
+      'ambattur' => 'Ambattur',
+      'tirunelveli' => 'Tirunelveli',
+      'malegoan' => 'Malegoan',
+      'gaya' => 'Gaya',
+      'jalgaon' => 'Jalgaon',
+      'udaipur' => 'Udaipur',
+      'maheshtala' => 'Maheshtala',
+      'others' => 'Others'
+  );
 
     $form['sales_info']['location'] = [
       '#type' => 'select',
@@ -180,7 +277,8 @@ class SalesForm extends FormBase {
     'multiple' => 'Multiple',
     'residential' => 'Residential',
     'professional_services' => 'Professional Services',
-    'amc' => 'AMC'
+    'amc' => 'AMC',
+    'others' => 'Others',
     );
 
     $form['sales_info']['project_type'] = [
@@ -199,106 +297,62 @@ class SalesForm extends FormBase {
       ),
       '#default_value' => $form_data['source_of_lead'],
     ];
-    
-    $form['sales_info']['client_name'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Client Name'),
-      '#attributes' => array(
-          'autocomplete' => 'nope',
-      ),
-      '#default_value' => $form_data['client_name'],
-    ];
 
-    $form['sales_info']['client_designation'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Client Designation'),
-      '#attributes' => array(
-          'autocomplete' => 'nope',
-      ),
-      '#default_value' => $form_data['client_designation'],
-    ];
-
-    $form['sales_info']['client_phone_fieldset'] = array(
+    $form['sales_info']['client_info'] = array(
       '#type' => 'fieldset',
       '#title' => $this
-          ->t('Client Phone'),
+          ->t('Client Info'),
       '#attributes' => array(
           'class' => array('SectionContainer'), 
       )            
     );
 
-    $form['sales_info']['client_phone_fieldset']['client_phone_1'] = [
-      '#type' => 'textfield',
-      '#attributes' => array(
-          'autocomplete' => 'nope',
-      ),
-      '#default_value' => $form_data['client_phone_1'],
-    ];
+    for ($i=1; $i<=4; $i++) {
+      $form['sales_info']['client_info']['client_'.$i] = array(
+        '#type' => 'fieldset',
+        '#title' => $this
+            ->t('Client ('.($i+1).')'),
+        '#attributes' => array(
+            'class' => array('SectionContainer'), 
+        )            
+      );
 
-    $form['sales_info']['client_phone_fieldset']['client_phone_2'] = [
-      '#type' => 'textfield',
-      '#attributes' => array(
-          'autocomplete' => 'nope',
-      ),
-      '#default_value' => $form_data['client_phone_2'],
-    ];
+      $form['sales_info']['client_info']['client_'.$i]['client_name_'.$i] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Client Name'),
+        '#attributes' => array(
+            'autocomplete' => 'nope',
+        ),
+        '#default_value' => $form_data['client_name_'.$i],
+      ];
 
-    $form['sales_info']['client_phone_fieldset']['client_phone_3'] = [
-      '#type' => 'textfield',
-      '#attributes' => array(
-          'autocomplete' => 'nope',
-      ),
-      '#default_value' => $form_data['client_phone_3'],
-    ];
+      $form['sales_info']['client_info']['client_'.$i]['client_designation_'.$i] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Client Designation'),
+        '#attributes' => array(
+            'autocomplete' => 'nope',
+        ),
+        '#default_value' => $form_data['client_designation_'.$i],
+      ];
 
-    $form['sales_info']['client_phone_fieldset']['client_phone_4'] = [
-      '#type' => 'textfield',
-      '#attributes' => array(
-          'autocomplete' => 'nope',
-      ),
-      '#default_value' => $form_data['client_phone_4'],
-    ];
+      $form['sales_info']['client_info']['client_'.$i]['client_phone_'.$i] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Client Phone'),
+        '#attributes' => array(
+            'autocomplete' => 'nope',
+        ),
+        '#default_value' => $form_data['client_phone_'.$i],
+      ];
 
-    $form['sales_info']['client_email_fieldset'] = array(
-      '#type' => 'fieldset',
-      '#title' => $this
-          ->t('Client Email'),
-      '#attributes' => array(
-          'class' => array('SectionContainer'), 
-      )            
-    );
-
-    $form['sales_info']['client_email_fieldset']['client_email_1'] = [
-      '#type' => 'textfield',
-      '#attributes' => array(
-          'autocomplete' => 'nope',
-      ),
-      '#default_value' => $form_data['client_email_1'],
-    ];
-
-    $form['sales_info']['client_email_fieldset']['client_email_2'] = [
-      '#type' => 'textfield',
-      '#attributes' => array(
-          'autocomplete' => 'nope',
-      ),
-      '#default_value' => $form_data['client_email_2'],
-    ];
-
-    $form['sales_info']['client_email_fieldset']['client_email_3'] = [
-      '#type' => 'textfield',
-      '#attributes' => array(
-          'autocomplete' => 'nope',
-      ),
-      '#default_value' => $form_data['client_email_3'],
-    ];
-
-    $form['sales_info']['client_email_fieldset']['client_email_4'] = [
-      '#type' => 'textfield',
-      '#attributes' => array(
-          'autocomplete' => 'nope',
-      ),
-      '#default_value' => $form_data['client_email_4'],
-    ];
+      $form['sales_info']['client_info']['client_'.$i]['client_email_'.$i] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Client Email'),
+        '#attributes' => array(
+            'autocomplete' => 'nope',
+        ),
+        '#default_value' => $form_data['client_email_'.$i],
+      ];
+    }
     
     $form['sales_info']['project'] = [
       '#type' => 'textfield',
@@ -339,6 +393,15 @@ class SalesForm extends FormBase {
       '#default_value' => $form_data['estimated_value'],
     ];
     
+    $form['sales_info']['inr_usd'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('INR+USD	'),
+      '#attributes' => array(
+          'autocomplete' => 'nope',
+      ),
+      '#default_value' => $form_data['inr_usd'],
+    ];
+
     $form['sales_info']['key_decision_maker'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Key decision makers'),
@@ -398,13 +461,13 @@ class SalesForm extends FormBase {
       '#default_value' => $form_data['result_status'],
     ];
 
-    $form['sales_info']['feedback'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Feedback'),
+    $form['sales_info']['deal_status_updates'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Deal Status Updates'),
       '#attributes' => array(
           'autocomplete' => 'nope',
       ),
-      '#default_value' => $form_data['feedback'],
+      '#default_value' => $form_data['deal_status_updates'],
     ];
     
     $form['sales_info']['likely_close_date'] = [
@@ -445,7 +508,8 @@ class SalesForm extends FormBase {
       }
 
       $form_data = $this->_getFormData($form_state);
-
+     // echo "<pre>";
+//print_r($form_data);exit;
       foreach ($form_data as $field_name => $field_value) {
         $node->set($field_name, $field_value);
       }
@@ -475,20 +539,19 @@ class SalesForm extends FormBase {
       $form_data['field_'.$field_name] = $form_state->getValue($field_name);
     }
 
+    $arr_client_name = array();
+    $arr_client_designation = array();
     $arr_client_phone = array();
     $arr_client_email = array();
-    array_push($arr_client_phone
-      , $form_state->getValue('client_phone_1')
-      , $form_state->getValue('client_phone_2')
-      , $form_state->getValue('client_phone_3')
-      , $form_state->getValue('client_phone_4'));
 
-    array_push($arr_client_email
-      , $form_state->getValue('client_email_1')
-      , $form_state->getValue('client_email_2')
-      , $form_state->getValue('client_email_3')
-      , $form_state->getValue('client_email_4'));
-
+    for ($i=1; $i<=4; $i++) {
+      array_push($arr_client_name, $form_state->getValue('client_name_'.$i));
+      array_push($arr_client_designation, $form_state->getValue('client_designation_'.$i));
+      array_push($arr_client_phone, $form_state->getValue('client_phone_'.$i));
+      array_push($arr_client_email, $form_state->getValue('client_email_'.$i));
+    }
+    $form_data['field_client_name'] = $arr_client_name;
+    $form_data['field_client_designation'] = $arr_client_designation;
     $form_data['field_client_phone'] = $arr_client_phone;
     $form_data['field_client_email'] = $arr_client_email;
 
