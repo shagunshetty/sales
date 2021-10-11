@@ -339,7 +339,7 @@ class SalesForm extends FormBase {
       $form['sales_info']['client_info']['client_'.$i] = array(
         '#type' => 'fieldset',
         '#title' => $this
-            ->t('Client ('.($i+1).')'),
+            ->t('Client ('.($i).')'),
         '#attributes' => array(
             'class' => array('SectionContainer'), 
         )            
