@@ -657,8 +657,6 @@ class SalesForm extends FormBase {
   private function _uploadFile($file_field, $node_id, FormStateInterface $form_state) {
     $arr_result = array();
     $arr_fid = $form_state->getValue([$file_field]);
-    echo "IN".$file_field;
-    print_r($arr_fid);
 
     if (is_array($arr_fid) && count($arr_fid)) {
       foreach($arr_fid as $fid) {
