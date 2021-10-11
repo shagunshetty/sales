@@ -678,7 +678,7 @@ class SalesForm extends FormBase {
 
         # Create directory if not exist.
         if (!is_dir($final_full_path)) {
-          var_dump(mkdir($final_full_path, 0777, true));
+          mkdir($final_full_path, 0777, true);
         }
 
         $final_file_name = commonUtil::clean_string($file_name)."_".time().".".$file_extension;
