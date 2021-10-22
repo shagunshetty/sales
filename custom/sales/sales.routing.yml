@@ -7,3 +7,12 @@ sales.manage:
     _permission: 'sales user'
   options:
     no_cache: 'TRUE'
+sales.files:
+  path: 'sales/files'
+  defaults:
+    _form:  '\Drupal\sales\Form\FilesForm'
+    _title: 'Documents'
+  requirements:
+    _permission: 'sales user'
+  options:
+    no_cache: 'TRUE'

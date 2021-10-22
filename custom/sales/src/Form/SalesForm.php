@@ -621,6 +621,7 @@ class SalesForm extends FormBase {
       if (is_array($arr_file_list) && count($arr_file_list) > 0) {
         $node->set('field_'.$file_field, serialize($arr_file_list));
       }
+      $node->save();
 
       \Drupal::messenger()->addStatus("Record has been created!\n");
           commonUtil::my_goto(Url::fromRoute('sales.manage',
